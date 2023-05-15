@@ -1,0 +1,55 @@
+name: cdw-tag
+
+on:
+  # Enable manual trigger
+  # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_dispatchinputs
+  workflow_dispatch:
+    inputs:
+      incr:
+        type: choice
+        description: Semantic version increment
+        default: prerelease
+        options:
+          - major
+          - minor
+          - patch
+          - premajor
+          - preminor
+          - prepatch
+          - prerelease
+
+jobs:
+  cdw-tag:
+    runs-on:
+      - self-hosted
+
+    steps:
+      - uses: actions/checkout@v3 # Checks out (i.e., clones) this repository
+        with:
+          token: ${{ secrets.CDW_MANAGED_INTERNAL_ACTIONS_REPO_ONLY }}
+      - uses: actions/checkout@v3 # We can clone other cdwlabs repos as well
+        with:
+          repository: cdwlabs/managed-actions
+          ref: main
+          token: ${{ secrets.CDW_MANAGED_INTERNAL_ACTIONS_REPO_ONLY }} # This secret needs to be a GitHub PAT
+          path: ./.github/actions/cdwlabs-managed-actions # Clones our actions repo into this subdirectory
+      - uses: ./.github/actions/cdwlabs-managed-actions/setup-go-semver # Uses the action from our cloned directory
+
+      - name: Prepare
+        id: prep
+        run: |
+          date > generated.txt
+          git fetch --tags
+          git config user.name ${{ github.actor }}
+          git config user.email github-actions@github.com
+          VERSION=$(semver -r -i=${{ github.event.inputs.incr }} --preid=rc -d=0.0.0)
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Tag
+        id: tag
+        run: |
+          git tag -f -a -m 'Managed Svcs. GitHub Actions release' ${{ steps.prep.outputs.VERSION }}
+
+      - name: Push
+        id: push
+        run: git push --tags origin main ${{ steps.prep.outputs.VERSION }}
