@@ -12,6 +12,7 @@ on:
 
 jobs:
   test:
+    if: github.repository == 'kyverno/policies'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,7 +28,7 @@ jobs:
           # The target branch of a pull request or the branch/tag of a push
           ref: ${{ github.base_ref || github.ref_name }}
 
-      - name: Set up Go 
+      - name: Set up Go
         uses: actions/setup-go@4d34df0c2316fe8122ab82dc22947d607c0c91f9
         with:
           go-version: "1.20"
@@ -35,12 +36,12 @@ jobs:
       - name: Test Policy
         run: go run ./cmd/cli/kubectl-kyverno test ../policies
         working-directory: kyverno
-    
+
       - name: Checkout kyverno/policies
         uses: actions/checkout@v2
         with:
           repository: kyverno/policies
-      
+
       - name: Validate all policies
         run: |
           #!/bin/bash
