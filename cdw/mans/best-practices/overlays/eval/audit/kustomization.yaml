@@ -1,0 +1,151 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../../baseline
+
+patches:
+
+  # The following patches will delete individual policies. You would delete
+  # individual policies when you don't want to audit them or they're being
+  # implemented instead as 'validationFailureAction: enforce' (see the ../audit directory)
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: add-networkpolicy
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: add-networkpolicy-dns
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: add-ns-quota
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: add-rolebinding
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: add-safe-to-evict
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: check-deprecated-apis
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: disallow-container-sock-mounts
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: disallow-default-namespace
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: disallow-empty-ingress-host
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: disallow-helm-tiller
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: disallow-latest-tag
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: drop-all-capabilities
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: drop-cap-net-raw
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: require-labels
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: require-requests-limits
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: require-pod-probes
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: require-ro-rootfs
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: restrict-image-registries
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: restrict-nodeport
+#
+#  - patch: |-
+#      $patch: delete
+#      apiVersion: kyverno.io/v1
+#      kind: ClusterPolicy
+#      metadata:
+#        name: restrict-external-ips
+
