@@ -10,9 +10,9 @@ for multiple purposes, leaving the original YAML untouched and usable as is.
 
 With this in mind, the simplest approach to understanding "how things work" is
 to treat `kustomization.yaml` files as bread crumbs. That is to say, where you
-find a kustomization.yaml file, it will take you to your next
-kustomization.yaml...which in turn will take you to another
-kustomization.yaml...etc., etc.
+find a `kustomization.yaml` file, it will take you to your next
+`kustomization.yaml`...which in turn will take you to another
+`kustomization.yaml`...etc., etc.
 
 A common practice is to use `overlays` directories to model your different
 environments (i.e. kubernetes clusters).  Following this pattern, our various
