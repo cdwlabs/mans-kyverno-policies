@@ -8,7 +8,7 @@ patches:
 
   # The following patches will delete individual policies. You would delete
   # individual policies when you don't want to audit them or they're being
-  # implemented instead as 'validationFailureAction: enforce' (see the ../audit directory)
+  # implemented instead as 'validationFailureAction: enforce' (see the ../enforce directory)
 #  - patch: |-
 #      $patch: delete
 #      apiVersion: kyverno.io/v1
