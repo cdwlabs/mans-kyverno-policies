@@ -2,8 +2,8 @@
 
 # vim: filetype=sh:tabstop=2:shiftwidth=2:expandtab
 
-readonly SCRIPT_NAME=$(basename $0)
-readonly SCRIPT_DIR="$( cd "$(dirname "$0")" ; pwd -P )"
+SCRIPT_NAME=
+SCRIPT_NAME=$(basename "$0")
 
 TARGET_DIR="$PWD"
 EKUST_DIR=
@@ -64,8 +64,11 @@ valid_args() {
     exit 1
   fi
 
-  local edir=$(find "$TARGET_DIR" -mindepth 1 -maxdepth 1 -type d -name "enforce")
-  local adir=$(find "$TARGET_DIR" -mindepth 1 -maxdepth 1 -type d -name "audit")
+  local edir
+  edir=$(find "$TARGET_DIR" -mindepth 1 -maxdepth 1 -type d -name "enforce")
+
+  local adir
+  adir=$(find "$TARGET_DIR" -mindepth 1 -maxdepth 1 -type d -name "audit")
 
   if [[ -z "$edir" || -z "$adir" ]]; then
     echo -e "\033[31mERROR: did not find expected directories 'enforce' and/or 'audit' under $TARGET_DIR"
@@ -74,8 +77,11 @@ valid_args() {
     exit 1
   fi
 
-  local eyaml=$(find "$edir" -mindepth 1 -maxdepth 1 -type f -name kustomization.yaml)
-  local eyml=$(find "$edir" -mindepth 1 -maxdepth 1 -type f -name kustomization.yml)
+  local eyaml
+  eyaml=$(find "$edir" -mindepth 1 -maxdepth 1 -type f -name kustomization.yaml)
+
+  local eyml
+  eyml=$(find "$edir" -mindepth 1 -maxdepth 1 -type f -name kustomization.yml)
 
   if [[ -z "$eyaml" && -z "$eyml" ]]; then
     echo -e "\033[31mERROR: the 'enforce' directory '$edir' does not have a kustomization yaml file"
@@ -91,8 +97,11 @@ valid_args() {
   echo "enforce: $EKUST_FILE"
   EKUST_DIR="$edir"
 
-  local ayaml=$(find "$adir" -mindepth 1 -maxdepth 1 -type f -name kustomization.yaml)
-  local ayml=$(find "$adir" -mindepth 1 -maxdepth 1 -type f -name kustomization.yml)
+  local ayaml
+  ayaml=$(find "$adir" -mindepth 1 -maxdepth 1 -type f -name kustomization.yaml)
+
+  local ayml
+  ayml=$(find "$adir" -mindepth 1 -maxdepth 1 -type f -name kustomization.yml)
 
   if [[ -z "$ayaml" && -z "$ayml" ]]; then
     echo -e "\033[31mERROR: the 'audit' directory '$adir' does not have a kustomization yaml file"
@@ -136,13 +145,16 @@ prereqs() {
 
 
 dupe_check() {
-  local apolicies=($(kustomize build "$AKUST_DIR" | yq -o=json | jq -s 'sort_by(.metadata.name)' | jq -r .[].metadata.name))
-  local epolicies=($(kustomize build "$EKUST_DIR" | yq -o=json | jq -s 'sort_by(.metadata.name)' | jq -r .[].metadata.name))
+  apolicies=()
+  while IFS='' read -r line; do apolicies+=("$line"); done < <(kustomize build "$AKUST_DIR" | yq -o=json | jq -s 'sort_by(.metadata.name)' | jq -r .[].metadata.name)
+
+  epolicies=()
+  while IFS='' read -r line; do epolicies+=("$line"); done < <(kustomize build "$EKUST_DIR" | yq -o=json | jq -s 'sort_by(.metadata.name)' | jq -r .[].metadata.name)
+
   dupes=()
-#  echo "Array size: " ${#apolicies[@]}
 
   for a in "${apolicies[@]}"; do
-    if [[ "${epolicies[*]}" =~ "${a}" ]]; then
+    if [[ "${epolicies[*]}" =~ ${a} ]]; then
       dupes+=("${a}")
     fi
   done
