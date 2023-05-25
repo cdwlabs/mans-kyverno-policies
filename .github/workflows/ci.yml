@@ -81,4 +81,3 @@ jobs:
       - name: Test Policy
         run: go run ./cmd/cli/kubectl-kyverno test ../policies
         working-directory: kyverno
->>>>>>> upstream/main
