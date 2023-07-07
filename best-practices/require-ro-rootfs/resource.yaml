@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
   - name: ghost
-    image: ghost
+    image: docker.io/ghost
     securityContext:
       readOnlyRootFilesystem: false
 ---
