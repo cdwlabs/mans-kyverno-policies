@@ -30,8 +30,47 @@ spec:
       pattern:
         spec:
           =(ephemeralContainers):
-          - image: "eu.foo.io/* | bar.io/*"
+          - image:
+            - bitnami/sealed-secrets-controller:*
+            - docker-release-local.artifactory.idm.hms.cdw.com/*
+            - docker.io/redis:*
+            - gcr.io/gloo-portal/*
+            - ghcr.io/dexidp/dex:*
+            - haproxy:*
+            - index.docker.io/rancher/*
+            - nginx:*
+            - quay.io/argoproj/argocd:*
+            - quay.io/solo-io/*
+            - rancher/*
+            - redis:*
+            - registry.k8s.io/echoserver:*
           =(initContainers):
-          - image: "eu.foo.io/* | bar.io/*"
+          - image:
+            - bitnami/sealed-secrets-controller:*
+            - docker-release-local.artifactory.idm.hms.cdw.com/*
+            - docker.io/redis:*
+            - gcr.io/gloo-portal/*
+            - ghcr.io/dexidp/dex:*
+            - haproxy:*
+            - index.docker.io/rancher/*
+            - nginx:*
+            - quay.io/argoproj/argocd:*
+            - quay.io/solo-io/*
+            - rancher/*
+            - redis:*
+            - registry.k8s.io/echoserver:*
           containers:
-          - image: "eu.foo.io/* | bar.io/*"
+          - image: 
+            - bitnami/sealed-secrets-controller:*
+            - docker-release-local.artifactory.idm.hms.cdw.com/*
+            - docker.io/redis:*
+            - gcr.io/gloo-portal/*
+            - ghcr.io/dexidp/dex:*
+            - haproxy:*
+            - index.docker.io/rancher/*
+            - nginx:*
+            - quay.io/argoproj/argocd:*
+            - quay.io/solo-io/*
+            - rancher/*
+            - redis:*
+            - registry.k8s.io/echoserver:*
