@@ -34,7 +34,7 @@ spec:
             - bitnami/sealed-secrets-controller:*
             - docker-release-local.artifactory.idm.hms.cdw.com/*
             - docker.io/redis:*
-            - gcr.io/gloo-portal/*
+            - gcr.io/*
             - ghcr.io/dexidp/dex:*
             - haproxy:*
             - index.docker.io/rancher/*
@@ -49,7 +49,7 @@ spec:
             - bitnami/sealed-secrets-controller:*
             - docker-release-local.artifactory.idm.hms.cdw.com/*
             - docker.io/redis:*
-            - gcr.io/gloo-portal/*
+            - gcr.io/*
             - ghcr.io/dexidp/dex:*
             - haproxy:*
             - index.docker.io/rancher/*
@@ -64,7 +64,7 @@ spec:
             - bitnami/sealed-secrets-controller:*
             - docker-release-local.artifactory.idm.hms.cdw.com/*
             - docker.io/redis:*
-            - gcr.io/gloo-portal/*
+            - gcr.io/*
             - ghcr.io/dexidp/dex:*
             - haproxy:*
             - index.docker.io/rancher/*
