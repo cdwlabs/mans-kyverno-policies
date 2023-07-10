@@ -33,7 +33,7 @@ spec:
           - image:
             - bitnami/sealed-secrets-controller:*
             - docker-release-local.artifactory.idm.hms.cdw.com/*
-            - docker.io/redis:*
+            - docker.io/*
             - gcr.io/*
             - ghcr.io/dexidp/dex:*
             - haproxy:*
@@ -43,12 +43,15 @@ spec:
             - quay.io/solo-io/*
             - rancher/*
             - redis:*
-            - registry.k8s.io/echoserver:*
+            - registry.k8s.io/*
+            - busybox:*
+            - eu.foo.io/*
+            - bar.io/*
           =(initContainers):
           - image:
             - bitnami/sealed-secrets-controller:*
             - docker-release-local.artifactory.idm.hms.cdw.com/*
-            - docker.io/redis:*
+            - docker.io/*
             - gcr.io/*
             - ghcr.io/dexidp/dex:*
             - haproxy:*
@@ -58,12 +61,15 @@ spec:
             - quay.io/solo-io/*
             - rancher/*
             - redis:*
-            - registry.k8s.io/echoserver:*
+            - registry.k8s.io/*
+            - busybox:*
+            - eu.foo.io/*
+            - bar.io/*
           containers:
           - image: 
             - bitnami/sealed-secrets-controller:*
             - docker-release-local.artifactory.idm.hms.cdw.com/*
-            - docker.io/redis:*
+            - docker.io/*
             - gcr.io/*
             - ghcr.io/dexidp/dex:*
             - haproxy:*
@@ -73,4 +79,7 @@ spec:
             - quay.io/solo-io/*
             - rancher/*
             - redis:*
-            - registry.k8s.io/echoserver:*
+            - registry.k8s.io/*
+            - busybox:*
+            - eu.foo.io/*
+            - bar.io/*
