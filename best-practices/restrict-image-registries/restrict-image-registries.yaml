@@ -30,56 +30,8 @@ spec:
       pattern:
         spec:
           =(ephemeralContainers):
-          - image:
-            - bitnami/sealed-secrets-controller:*
-            - docker-release-local.artifactory.idm.hms.cdw.com/*
-            - docker.io/*
-            - gcr.io/*
-            - ghcr.io/dexidp/dex:*
-            - haproxy:*
-            - index.docker.io/rancher/*
-            - nginx:*
-            - quay.io/argoproj/argocd:*
-            - quay.io/solo-io/*
-            - rancher/*
-            - redis:*
-            - registry.k8s.io/*
-            - busybox:*
-            - eu.foo.io/*
-            - bar.io/*
+          - image: "bitnami/sealed-secrets-controller:* | docker-release-local.artifactory.idm.hms.cdw.com/* | docker.io/* | gcr.io/* | ghcr.io/dexidp/dex:* | haproxy:* | index.docker.io/rancher/* | nginx:* | quay.io/argoproj/argocd:* | quay.io/solo-io/* | rancher/* | redis:* | registry.k8s.io/* | busybox:* | eu.foo.io/* | bar.io/*"
           =(initContainers):
-          - image:
-            - bitnami/sealed-secrets-controller:*
-            - docker-release-local.artifactory.idm.hms.cdw.com/*
-            - docker.io/*
-            - gcr.io/*
-            - ghcr.io/dexidp/dex:*
-            - haproxy:*
-            - index.docker.io/rancher/*
-            - nginx:*
-            - quay.io/argoproj/argocd:*
-            - quay.io/solo-io/*
-            - rancher/*
-            - redis:*
-            - registry.k8s.io/*
-            - busybox/*
-            - eu.foo.io/*
-            - bar.io/*
+          - image: "bitnami/sealed-secrets-controller:* | docker-release-local.artifactory.idm.hms.cdw.com/* | docker.io/* | gcr.io/* | ghcr.io/dexidp/dex:* | haproxy:* | index.docker.io/rancher/* | nginx:* | quay.io/argoproj/argocd:* | quay.io/solo-io/* | rancher/* | redis:* | registry.k8s.io/* | busybox:* | eu.foo.io/* | bar.io/*"
           containers:
-          - image: 
-            - bitnami/sealed-secrets-controller:*
-            - docker-release-local.artifactory.idm.hms.cdw.com/*
-            - docker.io/*
-            - gcr.io/*
-            - ghcr.io/dexidp/dex:*
-            - haproxy:*
-            - index.docker.io/rancher/*
-            - nginx:*
-            - quay.io/argoproj/argocd:*
-            - quay.io/solo-io/*
-            - rancher/*
-            - redis:*
-            - registry.k8s.io/*
-            - busybox/*
-            - eu.foo.io/*
-            - bar.io/*
+          - image: "bitnami/sealed-secrets-controller:* | docker-release-local.artifactory.idm.hms.cdw.com/* | docker.io/* | gcr.io/* | ghcr.io/dexidp/dex:* | haproxy:* | index.docker.io/rancher/* | nginx:* | quay.io/argoproj/argocd:* | quay.io/solo-io/* | rancher/* | redis:* | registry.k8s.io/* | busybox:* | eu.foo.io/* | bar.io/*"
