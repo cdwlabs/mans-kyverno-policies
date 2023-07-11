@@ -62,7 +62,7 @@ spec:
             - rancher/*
             - redis:*
             - registry.k8s.io/*
-            - busybox:*
+            - busybox/*
             - eu.foo.io/*
             - bar.io/*
           containers:
@@ -80,6 +80,6 @@ spec:
             - rancher/*
             - redis:*
             - registry.k8s.io/*
-            - busybox:*
+            - busybox/*
             - eu.foo.io/*
             - bar.io/*
