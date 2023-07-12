@@ -5,9 +5,9 @@ metadata:
 spec:
   containers:
   - name: busybox
-    image: busybox:1.35
+    image: docker.io/busybox:1.35
   - name: busybox
-    image: busybox:1.35
+    image: docker.io/busybox:1.35
     securityContext:
       readOnlyRootFilesystem: true
 ---
@@ -18,8 +18,8 @@ metadata:
 spec:
   containers:
   - name: busybox
-    image: busybox:1.35
+    image: docker.io/busybox:1.35
     securityContext:
       readOnlyRootFilesystem: true
   - name: busybox
-    image: busybox:1.35
+    image: docker.io/busybox:1.35

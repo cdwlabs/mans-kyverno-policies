@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
   - name: ghost
-    image: ghost
+    image: docker.io/ghost
     securityContext:
       readOnlyRootFilesystem: false
 ---
@@ -16,7 +16,7 @@ metadata:
 spec:
   containers:
   - name: ghost
-    image: ghost
+    image: docker.io/ghost
 ---
 apiVersion: v1
 kind: Pod
@@ -25,9 +25,9 @@ metadata:
 spec:
   containers:
   - name: ghost
-    image: ghost
+    image: docker.io/ghost
   - name: busybox
-    image: busybox
+    image: docker.io/busybox
     securityContext:
       readOnlyRootFilesystem: true
 ---
@@ -38,7 +38,7 @@ metadata:
 spec:
   containers:
   - name: ghost
-    image: ghost
+    image: docker.io/ghost
     securityContext:
       readOnlyRootFilesystem: true
 ---
@@ -49,10 +49,10 @@ metadata:
 spec:
   containers:
   - name: ghost
-    image: ghost
+    image: docker.io/ghost
     securityContext:
       readOnlyRootFilesystem: true
   - name: nginx
-    image: nginx
+    image: docker.io/nginx
     securityContext:
       readOnlyRootFilesystem: true
