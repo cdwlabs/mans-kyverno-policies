@@ -30,6 +30,7 @@ spec:
         - clusterRoles:
           - cluster-admin
       generate:
+        apiVersion: v1
         synchronize: true
         kind: RoleBinding
         name: "{{request.userInfo.username}}-admin-binding"
