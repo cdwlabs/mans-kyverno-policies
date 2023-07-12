@@ -23,4 +23,3 @@ spec:
       readOnlyRootFilesystem: true
   - name: busybox
     image: busybox:1.35
-
