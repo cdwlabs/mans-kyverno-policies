@@ -1,6 +1,0 @@
-policies:
-- name: require-network-policy
-  rules:
-  - name: require-network-policy
-    values:
-      policies_count: "0"
