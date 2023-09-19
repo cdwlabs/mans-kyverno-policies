@@ -21,7 +21,11 @@ on:
 jobs:
   cdw-tag:
     runs-on:
+      group: managed-services-apps-team
+      labels:
       - self-hosted
+      - unit-test
+      - pypi
 
     steps:
       - uses: actions/checkout@v3 # Checks out (i.e., clones) this repository
