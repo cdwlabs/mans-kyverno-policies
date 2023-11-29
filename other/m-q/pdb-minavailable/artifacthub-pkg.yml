@@ -19,4 +19,4 @@ annotations:
   kyverno/category: "Other"
   kyverno/kubernetesVersion: "1.24"
   kyverno/subject: "PodDisruptionBudget, Deployment, StatefulSet"
-digest: f5fb2bf91603f5fb0f607f5f15124ae0e931e60f0eb23c4b38ff0bc13b55c07b
+digest: f6f12d2b34642666ce110807b85756d86012a840a15f236c53e2a4866347b628
