@@ -30,8 +30,8 @@ spec:
       pattern:
         spec:
           =(ephemeralContainers):
-          - image: "eu.foo.io/* | bar.io/*"
+          - image: "bitnami/* | docker-release-local.artifactory.idm.hms.cdw.com/* | docker.io/* | gcr.io/* | ghcr.io/* | index.docker.io/* | quay.io/* | eu.foo.io/* | bar.io/*"
           =(initContainers):
-          - image: "eu.foo.io/* | bar.io/*"
+          - image: "bitnami/* | docker-release-local.artifactory.idm.hms.cdw.com/* | docker.io/* | gcr.io/* | ghcr.io/* | index.docker.io/* | quay.io/* | eu.foo.io/* | bar.io/*"
           containers:
-          - image: "eu.foo.io/* | bar.io/*"
+          - image: "bitnami/* | docker-release-local.artifactory.idm.hms.cdw.com/* | docker.io/* | gcr.io/* | ghcr.io/* | index.docker.io/* | quay.io/* | eu.foo.io/* | bar.io/*"
