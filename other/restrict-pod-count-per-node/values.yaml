@@ -1,6 +1,0 @@
-policies:
-- name: restrict-pod-count
-  rules:
-    - name: restrict-pod-count
-      values:
-        podcounts: "40"

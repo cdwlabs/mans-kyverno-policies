@@ -1,26 +1,23 @@
-name: require-labels
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: require-labels
 policies:
-  - require-labels.yaml
+- require-labels.yaml
 resources:
-  - resource.yaml
+- resource.yaml
 results:
-  - policy: require-labels
-    rule: check-for-labels
-    resource: badpod01
-    kind: Pod
-    result: fail
-  - policy: require-labels
-    rule: check-for-labels
-    resource: badpod02
-    kind: Pod
-    result: fail
-  - policy: require-labels
-    rule: check-for-labels
-    resource: goodpod01
-    kind: Pod
-    result: pass
-  - policy: require-labels
-    rule: check-for-labels
-    resource: goodpod02
-    kind: Pod
-    result: pass
+- kind: Pod
+  policy: require-labels
+  resources:
+  - badpod01
+  - badpod02
+  result: fail
+  rule: check-for-labels
+- kind: Pod
+  policy: require-labels
+  resources:
+  - goodpod01
+  - goodpod02
+  result: pass
+  rule: check-for-labels

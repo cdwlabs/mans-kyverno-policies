@@ -1,9 +1,0 @@
-policies:
-- name: allowed-label-changes
-  resources:
-  - name: badpod01
-    values:
-      request.operation: UPDATE
-  - name: goodpod01
-    values:
-      request.operation: UPDATE

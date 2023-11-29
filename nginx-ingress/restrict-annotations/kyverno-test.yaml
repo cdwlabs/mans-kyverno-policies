@@ -1,41 +1,26 @@
-name: restrict-annotations
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: restrict-annotations
 policies:
-  -  restrict-annotations.yaml
+- restrict-annotations.yaml
 resources:
-  -  resources.yaml
+- resources.yaml
 results:
-  - policy: restrict-annotations
-    rule: check-ingress
-    resource: no-annotations
-    kind: Ingress
-    result: pass
-  - policy: restrict-annotations
-    rule: check-ingress
-    resource: good-annotations
-    kind: Ingress
-    result: pass    
-  - policy: restrict-annotations
-    rule: check-ingress
-    resource: alias
-    kind: Ingress
-    result: fail
-  - policy: restrict-annotations
-    rule: check-ingress
-    resource: root
-    kind: Ingress
-    result: fail 
-  - policy: restrict-annotations
-    rule: check-ingress
-    resource: etc-passwd
-    kind: Ingress
-    result: fail
-  - policy: restrict-annotations
-    rule: check-ingress
-    resource: var-run-secrets
-    kind: Ingress
-    result: fail 
-  - policy: restrict-annotations
-    rule: check-ingress
-    resource: lua
-    kind: Ingress
-    result: fail
+- kind: Ingress
+  policy: restrict-annotations
+  resources:
+  - alias
+  - root
+  - etc-passwd
+  - var-run-secrets
+  - lua
+  result: fail
+  rule: check-ingress
+- kind: Ingress
+  policy: restrict-annotations
+  resources:
+  - no-annotations
+  - good-annotations
+  result: pass
+  rule: check-ingress

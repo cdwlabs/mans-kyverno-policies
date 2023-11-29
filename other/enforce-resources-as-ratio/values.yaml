@@ -1,6 +1,0 @@
-policies:
-- name:  enforce-resources-as-ratio
-  resources:
-  - name: goodpod
-    values:
-      request.operation: UPDATE
