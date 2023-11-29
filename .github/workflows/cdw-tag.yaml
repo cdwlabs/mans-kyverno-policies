@@ -22,7 +22,48 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  tag:
-    uses: cdwlabs/managed-actions/.github/workflows/tag.yml@main
-    with:
-      incr: ${{ inputs.incr }}
+  cdw-tag:
+    if: github.repository_owner == 'cdwlabs'
+    runs-on:
+      group: managed-services-apps-team
+      labels: [self-hosted, unit-test]
+
+    steps:
+      - name: Prepare Credentials
+        id: credentials
+        run: |
+          echo "::add-mask::$GH_PAT"
+          echo "cdw_pat=$GH_PAT" >> $GITHUB_OUTPUT
+          echo "rt_username=$RT_USERNAME" >> $GITHUB_OUTPUT
+          echo "rt_password=$RT_PASSWORD" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.credentials.outputs.cdw_pat }}
+
+      - name: Clone cdwlabs/managed-actions in a sub-directory
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.credentials.outputs.cdw_pat }}
+          repository: cdwlabs/managed-actions
+          ref: main
+          path: ./.github/actions/cdwlabs-managed-actions
+
+      - name: Use action from cdwlabs-managed-actions
+        uses: ./.github/actions/cdwlabs-managed-actions/setup-go-semver
+
+      - name: Prepare
+        id: prep
+        run: |
+          date > generated.txt
+          git fetch --tags
+          git config user.name ${{ github.actor }}
+          git config user.email github-actions@github.com
+          VERSION=$(semver -r -i=${{ github.event.inputs.incr }} --preid=rc -d=0.0.0)
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Tag
+        run: git tag -f -a -m 'GitHub Actions release' ${{ steps.prep.outputs.VERSION }}
+
+      - name: Push
+        run: git push --tags origin main ${{ steps.prep.outputs.VERSION }}
