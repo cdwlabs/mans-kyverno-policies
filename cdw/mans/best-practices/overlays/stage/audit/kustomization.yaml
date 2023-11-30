@@ -57,7 +57,7 @@ patches:
 #      apiVersion: kyverno.io/v1
 #      kind: ClusterPolicy
 #      metadata:
-#        name: disallow-cri-sock-mount
+#        name: disallow-container-sock-mounts
 #
 #  - patch: |-
 #      $patch: delete
@@ -92,14 +92,14 @@ patches:
 #      apiVersion: kyverno.io/v1
 #      kind: ClusterPolicy
 #      metadata:
-#        name: require-drop-all
+#        name: drop-all-capabilities
 #
 #  - patch: |-
 #      $patch: delete
 #      apiVersion: kyverno.io/v1
 #      kind: ClusterPolicy
 #      metadata:
-#        name: require-drop-cap-net-raw
+#        name: drop-cap-net-raw
 #
 #  - patch: |-
 #      $patch: delete
@@ -113,14 +113,14 @@ patches:
 #      apiVersion: kyverno.io/v1
 #      kind: ClusterPolicy
 #      metadata:
-#        name: require-pod-requests-limits
+#        name: require-requests-limits
 #
 #  - patch: |-
 #      $patch: delete
 #      apiVersion: kyverno.io/v1
 #      kind: ClusterPolicy
 #      metadata:
-#        name: require-probes
+#        name: require-pod-probes
 #
 #  - patch: |-
 #      $patch: delete
@@ -141,12 +141,12 @@ patches:
 #      apiVersion: kyverno.io/v1
 #      kind: ClusterPolicy
 #      metadata:
-#        name: restrict-node-port
+#        name: restrict-nodeport
 #
 #  - patch: |-
 #      $patch: delete
 #      apiVersion: kyverno.io/v1
 #      kind: ClusterPolicy
 #      metadata:
-#        name: restrict-service-external-ips
+#        name: restrict-external-ips
 
