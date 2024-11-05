@@ -1,4 +1,4 @@
-name: Kuttl Tests
+name: E2E Tests
 
 permissions: {}
 
@@ -6,84 +6,109 @@ on:
   workflow_dispatch: {}
   pull_request:
     branches:
-        - 'main'
+      - 'main'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  test:
+  chainsaw:
     strategy:
       fail-fast: false
       matrix:
         k8s-version:
           - name: v1.25
-            version: v1.25.11
+            version: v1.25.16
           - name: v1.26
-            version: v1.26.6
+            version: v1.26.14
           - name: v1.27
-            version: v1.27.3
+            version: v1.27.11
           - name: v1.28
-            version: v1.28.0
+            version: v1.28.7
+          - name: v1.29
+            version: v1.29.2
         tests:
-          - argo
-          - aws
-          - best-practices
-          - castai
-          - cert-manager
-          - consul
-          - external-secret-operator
-          - flux
-          - istio
-          - karpenter
-          - kasten
-          - kubecost
-          - kubeops
-          - kubevirt
-          - linkerd
-          - nginx-ingress
-          - openshift
-          - other/a
-          - other/b-d
-          - other/e-l
-          - other/m-q
-          - other/rec-req
-          - other/res
-          - other/s-z
-          - pod-security
-          - pod-security-cel
-          - psa
-          - psp-migration
-          # - tekton
-          # - traefik
-          # - velero
+          - ^argo$
+          - ^aws$
+          - ^best-practices$
+          - ^castai$
+          - ^cert-manager$
+          - ^consul$
+          - ^external-secret-operator$
+          - ^flux$
+          - ^istio$
+          - ^karpenter$
+          - ^kasten$
+          - ^kubecost$
+          - ^kubeops$
+          - ^kubevirt$
+          - ^linkerd$
+          - ^nginx-ingress$
+          - ^openshift$
+          - ^other$/^a
+          - ^other$/^[b-d]
+          - ^other$/^[e-l]
+          - ^other$/^[m-q]
+          - ^other$/^re[c-q]
+          - ^other$/^res
+          - ^other$/^[s-z]
+          - ^pod-security$
+          - ^pod-security-cel$
+          - ^psa$
+          - ^psp-migration$
+          # - ^tekton
+          # - ^traefik
+          # - ^velero
     runs-on: ubuntu-latest
     name: ${{ matrix.k8s-version.name }} - ${{ matrix.tests }}
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       - name: Setup Go
-        uses: actions/setup-go@93397bea11091df50f3d7e59dc26a7711a8bcfbe # v4.1.0
+        uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
         with:
           go-version: ~1.21.1
       - name: Install Tools
         run: |
-          GOBIN=$(pwd)/.tools/ go install sigs.k8s.io/kind@v0.19.0
-          GOBIN=$(pwd)/.tools/ go install github.com/kyverno/kuttl/cmd/kubectl-kuttl@main
+          set -e
           curl -LO "https://dl.k8s.io/release/${{ matrix.k8s-version.version }}/bin/linux/amd64/kubectl"
           sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+      - name: Install kind
+        shell: bash
+        run: |
+          set -e
+          # For AMD64 / x86_64
+          [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
+          # For ARM64
+          [ $(uname -m) = aarch64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-arm64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+      - name: Install oras CLI
+        uses: oras-project/setup-oras@ee7dbe1144cb00080a89497f937dae78f85fce29 # v1.1.0
       - name: Install latest Kyverno CLI
         uses: kyverno/action-install-cli@fcee92fca5c883169ef9927acf543e0b5fc58289 # v0.2.0
       - name: Create kind cluster
         run: |
-          ./.tools/kind create cluster --image kindest/node:${{ matrix.k8s-version.version }} --config ./.github/kind.yml
+          set -e
+          kind create cluster --image kindest/node:${{ matrix.k8s-version.version }} --config ./.github/kind.yml
       - name: Install latest kyverno
         run: |
+          set -e
           kubectl create -f https://github.com/kyverno/kyverno/raw/main/config/install-latest-testing.yaml
       - name: Wait for kyverno ready
         run: |
+          set -e
           kubectl wait --namespace kyverno --for=condition=ready pod --selector '!job-name' --timeout=60s
-      - name: Test with kuttl
+      - name: Install CRDs
         run: |
-          ./.tools/kubectl-kuttl test ./${{ matrix.tests }} --config ./kuttl-test.yaml
+          set -e
+          kubectl apply -f ./.chainsaw/crds
+      - name: Install Chainsaw
+        uses: kyverno/action-install-chainsaw@995cddaee7702e849270b84fa44cdcebe7462da8 # v0.1.9
+      - name: Test with Chainsaw
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          chainsaw test --config .chainsaw.yaml --include-test-regex '^chainsaw$/${{ matrix.tests }}' --no-color=false

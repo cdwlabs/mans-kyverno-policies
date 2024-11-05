@@ -1,8 +1,6 @@
 name: cdw-tag
 
 on:
-  # Enable manual trigger
-  # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_dispatchinputs
   workflow_dispatch:
     inputs:
       incr:
@@ -18,26 +16,41 @@ on:
           - prepatch
           - prerelease
 
+concurrency:
+  # New commit on branch cancels running workflows of the same branch
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   cdw-tag:
+    if: github.repository_owner == 'cdwlabs'
     runs-on:
       group: managed-services-apps-team
-      labels:
-      - self-hosted
-      - unit-test
-      - pypi
+      labels: [self-hosted, unit-test]
 
     steps:
-      - uses: actions/checkout@v3 # Checks out (i.e., clones) this repository
+      - name: Prepare Credentials
+        id: credentials
+        run: |
+          echo "::add-mask::$GH_PAT"
+          echo "cdw_pat=$GH_PAT" >> $GITHUB_OUTPUT
+          echo "rt_username=$RT_USERNAME" >> $GITHUB_OUTPUT
+          echo "rt_password=$RT_PASSWORD" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.CDW_MANAGED_INTERNAL_ACTIONS_REPO_ONLY }}
-      - uses: actions/checkout@v3 # We can clone other cdwlabs repos as well
+          token: ${{ steps.credentials.outputs.cdw_pat }}
+
+      - name: Clone cdwlabs/managed-actions in a sub-directory
+        uses: actions/checkout@v4
         with:
+          token: ${{ steps.credentials.outputs.cdw_pat }}
           repository: cdwlabs/managed-actions
           ref: main
-          token: ${{ secrets.CDW_MANAGED_INTERNAL_ACTIONS_REPO_ONLY }} # This secret needs to be a GitHub PAT
-          path: ./.github/actions/cdwlabs-managed-actions # Clones our actions repo into this subdirectory
-      - uses: ./.github/actions/cdwlabs-managed-actions/setup-go-semver # Uses the action from our cloned directory
+          path: ./.github/actions/cdwlabs-managed-actions
+
+      - name: Use action from cdwlabs-managed-actions
+        uses: ./.github/actions/cdwlabs-managed-actions/setup-go-semver
 
       - name: Prepare
         id: prep
@@ -50,10 +63,7 @@ jobs:
           echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Tag
-        id: tag
-        run: |
-          git tag -f -a -m 'Managed Svcs. GitHub Actions release' ${{ steps.prep.outputs.VERSION }}
+        run: git tag -f -a -m 'GitHub Actions release' ${{ steps.prep.outputs.VERSION }}
 
       - name: Push
-        id: push
         run: git push --tags origin main ${{ steps.prep.outputs.VERSION }}

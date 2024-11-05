@@ -1,0 +1,83 @@
+{
+  "packages": [
+    "shellcheck@0.9.0",
+    "gitlint@0.19.1",
+    "gitleaks@8.18.1",
+    "commitizen@3.13.0",
+    "markdownlint-cli@0.38.0",
+    "trivy@latest",
+    "jq@latest",
+    "yq@latest",
+    "go-task@3.34.1",
+    "kubectl@1.25.5",
+    "kubernetes-helm@3.13.3",
+    "kustomize@5.3.0",
+    "kubeconform@0.6.4",
+    "kyverno@1.11.4"
+  ],
+  "env": {
+    "GIT_UPSTREAM": "https://github.com/kyverno/policies.git",
+    "GIT_CDWLABS_UPSTREAM": "https://github.com/cdwlabs/mans-kyverno-policies.git",
+    "PROJECT_DIR":  "$PWD",
+    "CDW_DIR": "$PWD/cdw/mans"
+  },
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to devbox!' > /dev/null"
+    ],
+    "scripts": {
+      "git_upstream_config": [
+        "git remote | grep upstream > /dev/null || git remote add upstream $GIT_UPSTREAM"
+      ],
+      "git_cdw_upstream_config": [
+        "git remote | grep cdwlabs > /dev/null || git remote add upstream $GIT_CDWLABS_UPSTREAM"
+      ],
+      "git_alias_install": [
+        "echo ",
+        "git config --local --get-regexp ^alias.branch-name > /dev/null && echo \"branch-name git alias already installed\" || git config --local alias.branch-name '!git rev-parse --abbrev-ref HEAD'",
+        "git config --local --get-regexp ^alias.pu > /dev/null && echo \"pull upstream git alias already installed\" || git config --local alias.pu '!git fetch origin $(git branch-name) -v; git fetch upstream $(git branch-name) -v; git fetch --tags upstream; git merge upstream/$(git branch-name)'",
+        "git config --local --get-regexp ^alias.publish > /dev/null && echo \"publish git alias already installed\" || git config --local alias.publish '!git push -u origin $(git branch-name)'"
+      ],
+      "commitizen_alias_install": [
+        "echo ",
+        "git config --local --get-regexp ^alias.cc > /dev/null && echo \"commitizen git alias already installed\" || git config --local alias.cc '!cz c'"
+      ],
+      "gitlint_hook_install": [
+        "echo ",
+        "if [ -f $PROJECT_DIR/.git/hooks/commit-msg ]; then",
+        "echo 'gitlint commit hook already installed'",
+        "else",
+        "gitlint install-hook || exit 1",
+        "fi"
+      ],
+      "gitleaks_hook_install": [
+        "echo ",
+        "if [ -f $PROJECT_DIR/.git/hooks/pre-commit ]; then",
+        "echo 'gitleaks commit hook already installed'",
+        "else",
+        "cat << 'EOF' > .git/hooks/pre-commit",
+        "#!/bin/sh",
+        "",
+        "# Redirect output to stderr.",
+        "exec 1>&2",
+        "",
+        "### gitleak pre-commit hook start ###",
+        "gitleaks protect -v --staged",
+        "if [ $? -eq 1 ]; then",
+        "  echo 'Warning: gitleaks has detected sensitive information in your changes'",
+        "  exit 1",
+        "fi",
+        "EOF",
+        "chmod +x .git/hooks/pre-commit",
+        "echo 'gitleaks commit hook installed'",
+        "fi"
+      ],
+      "kubeconfig_install": [
+        "echo ",
+        "if [ -f ./scripts/init-kubeconfig.sh ]; then",
+        "./scripts/init-kubeconfig.sh",
+        "fi"
+      ]
+    }
+  }
+}

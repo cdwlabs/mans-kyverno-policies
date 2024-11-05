@@ -23,12 +23,13 @@ patches:
 #      metadata:
 #        name: add-networkpolicy-dns
 #
-#  - patch: |-
-#      $patch: delete
-#      apiVersion: kyverno.io/v1
-#      kind: ClusterPolicy
-#      metadata:
-#        name: add-ns-quota
+# We need a different approach for determining & applying namespace quotas
+  - patch: |-
+      $patch: delete
+      apiVersion: kyverno.io/v1
+      kind: ClusterPolicy
+      metadata:
+        name: add-ns-quota
 #
 #  - patch: |-
 #      $patch: delete
