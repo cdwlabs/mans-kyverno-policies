@@ -43,7 +43,7 @@ if [ "${distro}" != "ubuntu" ] && [ "${distro}" != "alpine" ]; then
   error "only ubuntu and alpine are supported"
 fi
 
-if [ -z "$GITHUB_WORKSPACE" ]; then
+if [ -z "${GITHUB_WORKSPACE:-}" ]; then
   error "doesn't appear to be running withing a GitHub Action workflow"
 fi
 
@@ -71,10 +71,10 @@ function check_or_install() {
 }
 
 needed=(
-curl
-git
-sudo
-xz
+  curl
+  git
+  sudo
+  xz
 )
 
 need_to_run_update="no"
@@ -100,6 +100,8 @@ if [ "${need_to_run_update}" != "no" ]; then
 fi
 
 if ! [ -e "/usr/local/bin/devbox" ]; then
+  user="$(whoami)"
+
   if [ "${distro}" = "alpine" ]; then
     sudo addgroup -g 30000 -S nixbld
     for num in $(seq 1 32); do
@@ -118,15 +120,16 @@ if ! [ -e "/usr/local/bin/devbox" ]; then
     if ! [ -e "${devbox_dir}" ]; then
       sudo mkdir -p "${devbox_dir}"
       sudo chmod g-s "${devbox_dir}"
-      sudo chown 1000:1000 "${devbox_dir}"
+      sudo chown "${user}:${user}" "${devbox_dir}"
       mkdir -p "${devbox_dir}/global/default"
     fi
   fi
 
   if ! [ -e "/nix" ]; then
     curl -fsSL https://nixos.org/nix/install | sh -s -- --daemon --yes
-    sudo chown -R 1000:1000 /nix
   fi
+
+  sudo chown -R "${user}:${user}" /nix
 
   if ! [ -e "/usr/local/bin/devbox" ]; then
     curl -fsSL https://get.jetpack.io/devbox | FORCE=1 bash
@@ -148,4 +151,7 @@ if ! [ -e "/usr/local/bin/devbox" ]; then
   # Run devbox global install
   echo
   devbox global install
+
+  # Set environment variables from the devbox global env
+  eval "$(devbox global shellenv)"
 fi
