@@ -3,3 +3,11 @@ apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
   name: restrict-nodeport
+<<<<<<<< HEAD:cdw/mans/best-practices/overlays/eval/audit/delete-restrict-nodeport.yaml
+========
+status:
+  conditions:
+  - reason: Succeeded
+    status: "True"
+    type: Ready
+>>>>>>>> upstream/main:best-practices/restrict-node-port/.chainsaw-test/policy-ready.yaml

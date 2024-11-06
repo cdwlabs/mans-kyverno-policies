@@ -2,4 +2,13 @@ $patch: delete
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
+<<<<<<<< HEAD:cdw/mans/best-practices/overlays/prod/audit/delete-restrict-nodeport.yaml
   name: restrict-nodeport
+========
+  name: require-labels
+status:
+  conditions:
+  - reason: Succeeded
+    status: "True"
+    type: Ready
+>>>>>>>> upstream/main:best-practices/require-labels/.chainsaw-test/policy-ready.yaml
