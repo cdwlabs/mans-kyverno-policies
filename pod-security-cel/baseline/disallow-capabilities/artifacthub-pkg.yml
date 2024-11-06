@@ -19,5 +19,5 @@ annotations:
   kyverno/category: "Pod Security Standards (Baseline) in CEL"
   kyverno/kubernetesVersion: "1.26-1.27"
   kyverno/subject: "Pod"
-digest: 6a0ace9b1f5b3f25b34117db4936ba32c4fcbbdfe3d0dba9e61b6152dede3a53
-createdAt: "2023-12-03T00:22:33Z"
+digest: 581bbe2061d08871889e18bc5a6f58102da467d4fa164084970d96ab2ef3c202
+createdAt: "2024-08-21T00:22:33Z"

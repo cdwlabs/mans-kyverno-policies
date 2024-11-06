@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
 - add-privileged-existing-namespaces/add-privileged-existing-namespaces.yaml
 - add-psa-labels/add-psa-labels.yaml
+- add-psa-namespace-reporting/add-psa-namespace-reporting.yaml
 - deny-privileged-profile/deny-privileged-profile.yaml

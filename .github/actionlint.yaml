@@ -1,0 +1,23 @@
+self-hosted-runner:
+  # Labels of self-hosted runner in array of strings.
+  labels:
+    - pypi
+    - registry
+    - rpm
+    - unit-test
+    - integration-test
+    - deployment 
+    - cdw
+    - ubuntu
+    - 20.04
+    - 22.04
+    - 24.04
+    - stable
+    - wip
+# Path-specific configurations.
+paths:
+  .github/workflows/**/cdw-*.yaml
+# Configuration variables in array of strings defined in your repository or
+# organization. `null` means disabling configuration variables check.
+# Empty array means no configuration variable is allowed.
+config-variables: null
