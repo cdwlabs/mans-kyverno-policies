@@ -19,4 +19,8 @@ do
     DIGEST=$(shasum -U -a 256 "$POLICY_FILE" | cut -d" " -f 1)
     echo "  Digest: $DIGEST"
     $SED -i "s/^digest:.*/digest: $DIGEST/" $FILE
+    if ! grep -q "createdAt:" "$FILE"; then
+        NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+        echo "createdAt: \"${NOW}\"" >> $FILE
+    fi
 done

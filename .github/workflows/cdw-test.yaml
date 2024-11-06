@@ -1,0 +1,80 @@
+name: cdw-test
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types: [ opened, synchronize, ready_for_review, reopened ]
+    # Do not run when a pull request only contains changes to these files
+    paths-ignore:
+      - ".github/CODEOWNERS"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
+      - "LICENSE"
+
+  push:
+    branches:
+      - main
+    # Do not run when a pull request only contains changes to these files
+    paths-ignore:
+      - ".github/CODEOWNERS"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
+      - "LICENSE"
+
+concurrency:
+  # New commit on branch cancels running workflows of the same branch
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cdw-test:
+    if: github.repository_owner == 'cdwlabs'
+    runs-on:
+      group: managed-services-apps-team
+      labels:
+       - self-hosted
+       - unit-test
+       - Linux
+       - x64
+       - cdw
+       - 24.04
+
+    steps:
+      - name: Prepare Credentials
+        id: credentials
+        run: |
+          echo "::add-mask::$GH_PAT"
+          echo "::add-mask::$RT_USERNAME"
+          echo "::add-mask::$RT_PASSWORD"
+          {
+            echo "cdw_pat=$GH_PAT"
+            echo "rt_username=$RT_USERNAME"
+            echo "rt_password=$RT_PASSWORD"
+          } >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          token: ${{ steps.credentials.outputs.cdw_pat }}
+
+      - name: Clone cdwlabs/managed-actions in a sub-directory
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          token: ${{ steps.credentials.outputs.cdw_pat }}
+          repository: cdwlabs/managed-actions
+          ref: main
+          path: ./.github/actions/cdwlabs-managed-actions
+
+      - name: Use action from cdwlabs-managed-actions
+        uses: ./.github/actions/cdwlabs-managed-actions/setup-go-semver
+
+      - name: Prepare
+        id: prep
+        run: |
+          ./scripts/install-devbox.sh
+          echo "$HOME/.local/share/devbox/global/default/.devbox/nix/profile/default/bin:$HOME/go/bin" >> "$GITHUB_PATH"
+
+      - name: Kustomize
+        run: |
+          kustomize build cdw/mans/best-practices/overlays/eval
+          kustomize build cdw/mans/best-practices/overlays/stage
+          kustomize build cdw/mans/best-practices/overlays/prod

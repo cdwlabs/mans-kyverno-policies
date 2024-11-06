@@ -1,6 +1,0 @@
-apiVersion: kyverno.io/v1
-kind: ClusterPolicy
-metadata:
-  name: add-sidecar-injection-namespace
-status:
-  ready: true

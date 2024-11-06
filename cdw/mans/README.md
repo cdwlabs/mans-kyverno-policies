@@ -27,3 +27,12 @@ command against that directory, like so:
 bash-5.0$ kustomize build overlays/eval
 ````
 
+Or, if you want to render policy for local testing:
+
+```sh
+bash-5.0$ rm -rf "$HOME/code/rendered-kyverno-policy/stage"
+bash-5.0$ mkdir "$HOME/code/rendered-kyverno-policy/stage"
+bash-5.0$ kustomize build overlays/stage/ > "$HOME/code/rendered-kyverno-policy/stage/policy.yaml"
+bash-5.0$
+bash-5.0$ kyverno apply "$HOME/code/rendered-kyverno-policy/stage/policy.yaml" --resource deploy/deployment.yml
+````
