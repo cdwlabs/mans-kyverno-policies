@@ -8,13 +8,17 @@
     "trivy@latest",
     "jq@latest",
     "yq@latest",
-    "go-task@3.34.1",
     "kubectl@1.25.5",
-    "kubernetes-helm@3.13.3",
     "kustomize@5.3.0",
-    "kubeconform@0.6.4",
     "kyverno@1.11.4",
-    "actionlint@latest"
+    "kyverno-chainsaw@latest",
+    "go-task@latest",
+    "yamlfmt@latest",
+    "kubernetes-helm@3.15.4",
+    "kind@0.24.0",
+    "actionlint@1.7.1",
+    "check-jsonschema@0.28.5",
+    "kubeconform@0.6.7"
   ],
   "env": {
     "GIT_UPSTREAM":         "https://github.com/kyverno/policies.git",

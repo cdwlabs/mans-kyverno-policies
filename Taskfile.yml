@@ -1,0 +1,161 @@
+---
+version: '3'
+
+env:
+  K8S_VERSION: 1.24.17
+  K8S_CONFIG_DIR: .k8s/kube
+  K8S_CLUSTER_NAME: cicd-cluster
+  METADATA_VERSION: 0.0.5
+
+tasks:
+  default:
+    cmds:
+      - task: lint
+      - task: vuln
+
+  lint:
+    desc: Run linters and report errors
+    cmds:
+      - task: lint:shellcheck
+      - task: lint:markdown
+      - task: lint:yaml
+      - task: lint:gha
+      - task: lint:helm
+
+  lint:shellcheck:
+    desc: Run shellcheck on bash scripts
+    cmds:
+      - shellcheck ./scripts/install-devbox.sh
+      - shellcheck ./scripts/verify-cdw-metadata.sh
+
+  lint:markdown:
+    desc: Run markdown linter
+    cmds:
+      - markdownlint .
+
+  lint:gha:
+    desc: Run github actions workflows linter
+    cmds:
+      - actionlint
+
+  lint:yaml:
+    desc: Run yaml formatter
+    cmds:
+      - yamlfmt Taskfile.yml
+
+  lint:helm:
+    desc: Run helm linter
+    cmds:
+      - helm lint cdw/mans/examples/charts/hello-world --values cdw/mans/examples/charts/hello-world/values.yaml --kube-version $K8S_VERSION --strict
+
+  vuln:
+    desc: Run trivy to check for vulnerabilities
+    cmd: trivy fs --ignore-unfixed -s HIGH,CRITICAL .
+
+  test:
+    desc: Run various tests
+    cmds:
+      - task: test:metadata
+
+  test:metadata:
+    desc: Verify metadata for correctness
+    cmds:
+      - ./scripts/verify-cdw-metadata.sh
+
+  policy:verify:
+    desc: Validate CDW's applicable Kyverno Policy
+    cmds:
+      - task: policy:verify:kustomize
+      - task: policy:verify:chainsaw
+
+  policy:verify:kustomize:
+    desc: Verify Kyverno Policy can be rendered
+    cmds:
+      - kustomize build cdw/mans/overlays/eval/ > /dev/null
+      - kustomize build cdw/mans/overlays/stage/ > /dev/null
+      - kustomize build cdw/mans/overlays/prod/ > /dev/null
+
+  policy:verify:chainsaw:
+    desc: Verify Kyverno Policy using Chainsaw
+    deps: [cluster:up]
+    cmds:
+      - task: policy:verify:chainsaw:labels
+
+  policy:verify:chainsaw:labels:
+    desc: Verify Kyverno metadata-labels policy using Chainsaw
+    cmds:
+      - KUBECONFIG="$K8S_CONFIG_DIR/config" chainsaw test cdw/mans/metadata-labels --config .chainsaw.yaml --include-test-regex '^chainsaw$/'
+
+  cluster:up:
+    desc: Run kind to create our test cluster and get it to a known state
+    cmds:
+      - task: cluster:up:create
+      - task: cluster:up:kyverno-install
+
+  cluster:up:create:
+    desc: Run kind to create a cluster
+    cmds:
+      - mkdir -p "$K8S_CONFIG_DIR" # known location for kubeconfig
+      - kind create cluster --image "kindest/node:v$K8S_VERSION" --config ./.cdw/kind.yaml --kubeconfig "$K8S_CONFIG_DIR/config"
+    status:
+      - test -f "$K8S_CONFIG_DIR/config" # known location for kubeconfig
+
+  cluster:up:kyverno-install:
+    desc: Install the latest kyverno
+    cmds:
+      - kubectl create -f https://github.com/kyverno/kyverno/raw/main/config/install-latest-testing.yaml --kubeconfig "$K8S_CONFIG_DIR/config"
+      - sleep 60
+      - kubectl --namespace kyverno --kubeconfig "$K8S_CONFIG_DIR/config" get pods
+      - kubectl --namespace kyverno --kubeconfig "$K8S_CONFIG_DIR/config" describe pod -l app.kubernetes.io/component=admission-controller
+    status:
+      - kubectl wait --namespace kyverno --for=condition=ready pod --selector '!job-name' --timeout=5s --kubeconfig "$K8S_CONFIG_DIR/config"
+
+  cluster:up:crd-install:
+    desc: Install CRDs
+    cmds:
+      - kubectl apply -f ./.chainsaw/crds --kubeconfig "$K8S_CONFIG_DIR/config"
+
+  cluster:down:
+    desc: Run kind to tear down our test cluster
+    cmds:
+      - kind delete cluster --name "$K8S_CLUSTER_NAME" --kubeconfig "$K8S_CONFIG_DIR/config"
+      - rm -rf .k8s
+
+  k8s:release:helm:
+    desc: Deploy our application(s) to local kind cluster using helm
+    cmds:
+      - task: k8s:release:helm:hello-world
+
+  k8s:release:helm:hello-world:
+    desc: Perform a helm release of the hello-world application
+    cmds:
+      - helm upgrade "{{.RELEASE_NAME}}" "{{.CHART_DIR}}" --kubeconfig "$K8S_CONFIG_DIR/config" --install --namespace "{{.RELEASE_NAMESPACE}}" --create-namespace --wait -f "{{.CHART_DIR}}/values.yaml" --set service.type=NodePort
+      - |
+        echo "If your application was successfully deployed:"
+        echo "  curl http://localhost:30000"
+        echo
+        echo "  kubectl --kubeconfig $K8S_CONFIG_DIR/config -n {{.RELEASE_NAMESPACE}} describe deployment hello-world"
+        echo
+        echo "  kubectl --kubeconfig .k8s/kube/config -n hello-world get deployment hello-world -o yaml | yq -r .metadata.labels"
+        echo
+    vars:
+      CHART_DIR: charts/hello-world
+      RELEASE_NAME: hello-world
+      RELEASE_NAMESPACE:
+        sh: cat charts/hello-world/values.yaml | yq -r .namespace
+
+  k8s:uninstall:helm:
+    desc: Uninstall our application(s) in local kind cluster using helm
+    cmds:
+      - task: k8s:uninstall:helm:hello-world
+
+  k8s:uninstall:helm:hello-world:
+    desc: Uninstall the helm release of the hello-world application
+    cmds:
+      - helm uninstall "{{.RELEASE_NAME}}" --kubeconfig "$K8S_CONFIG_DIR/config" --namespace "{{.RELEASE_NAMESPACE}}"
+      - kubectl --kubeconfig "$K8S_CONFIG_DIR/config" delete namespace "{{.RELEASE_NAMESPACE}}"
+    vars:
+      CHART_DIR: charts/hello-world
+      RELEASE_NAME: hello-world
+      RELEASE_NAMESPACE:
+        sh: cat charts/hello-world/values.yaml | yq -r .namespace

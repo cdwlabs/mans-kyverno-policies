@@ -1,0 +1,17 @@
+---
+app1:
+  name: a-dummy-app
+  instance: a-dummy-app-1
+  component: api
+  partOf: a-bunch-of-dummy-apps
+  managedBy: helm
+  businessUnit: integrated-tech
+  practice: managed-services
+  department: applications
+  team: devops
+  environment: us-east-1
+  stage: prod
+  customerAbbreviation: dcapps
+  pci: out-of-scope
+  dataClassification: business
+  businessCriticality: low

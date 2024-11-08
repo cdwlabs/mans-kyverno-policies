@@ -1,0 +1,65 @@
+# Default values for hello-world.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+app: app1 # index value of application in .cdw/metadata.yaml
+#app: 0 # index value of application in .cdw/metadata.yaml
+environment: us-east-1
+stage: prod
+metadataFile: ".cdw/metadata.yaml"
+
+replicaCount: 1
+
+image:
+  repository: docker.io/nginx
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 1.27.1
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+namespace: hello-world
+
+service:
+  type: ClusterIP  # or NodePort which works well with kind
+  port: 80
+  targetPort: 8080
+  nodePort: 30000
+
+nginxConfig: |
+  user  nginx;
+  worker_processes  auto;
+
+  error_log  /tmp/nginx/error.log notice;
+  pid        /tmp/nginx/nginx.pid;
+
+  events {
+      worker_connections  1024;
+  }
+
+  http {
+      log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                        '$status $body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" "$http_x_forwarded_for"';
+      access_log  /tmp/nginx/access.log  main;
+      sendfile        on;
+      keepalive_timeout  65;
+      server {
+          listen       8080;
+          server_name  localhost;
+          location / {
+              add_header Content-Type text/plain;
+              return 200 'hello world';
+          }
+      }
+  }

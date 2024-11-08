@@ -1,5 +1,8 @@
-#!/bin/bash
-set -euo pipefail
+#!/usr/bin/env bash
+#set -euo pipefail
+set -eo pipefail
+
+# vim: filetype=sh:tabstop=2:shiftwidth=2:expandtab
 
 function error() {
   >&2 echo "ERROR: $1"
@@ -147,11 +150,4 @@ if ! [ -e "/usr/local/bin/devbox" ]; then
   echo "setting ${devbox_dir}/devbox.json to ${GITHUB_WORKSPACE}/devbox.json"
   [ -e "${devbox_dir}" ] || mkdir -p "${devbox_dir}"
   [ -e "${devbox_dir}/devbox.json" ] || ln -sf "${GITHUB_WORKSPACE}/devbox.json" "${devbox_dir}/devbox.json"
-
-  # Run devbox global install
-  echo
-  devbox global install
-
-  # Set environment variables from the devbox global env
-  eval "$(devbox global shellenv)"
 fi

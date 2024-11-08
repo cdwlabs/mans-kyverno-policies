@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ../../pod-security/overlays/eval
   - ../../best-practices/overlays/eval
+  - ../../metadata-labels/overlays/eval

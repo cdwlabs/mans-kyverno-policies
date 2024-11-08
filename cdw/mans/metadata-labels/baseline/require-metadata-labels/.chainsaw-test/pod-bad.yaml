@@ -1,0 +1,347 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    foo: bar
+  name: badpod01
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod02
+  labels:
+    app.kubernetes.io/component: database
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod03
+  labels:
+    app.kubernetes.io/name: eugene
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod04
+  labels:
+    app.kubernetes.io/name: finch
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod05
+  labels:
+    app.kubernetes.io/name: george
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wssmtap
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod06
+  labels:
+    app.kubernetes.io/name: henry
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod07
+  labels:
+    app.kubernetes.io/name: ike
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod08
+  labels:
+    app.kubernetes.io/name: jimmy
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod09
+  labels:
+    app.kubernetes.io/name: kent
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod10
+  labels:
+    app.kubernetes.io/name: louie
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod11
+  labels:
+    app.kubernetes.io/name: max
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod12
+  labels:
+    app.kubernetes.io/name: newton
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod13
+  labels:
+    app.kubernetes.io/name: oscar
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod14
+  labels:
+    app.kubernetes.io/name: phillip
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: badpod15
+  labels:
+    app.kubernetes.io/name: qwan
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35

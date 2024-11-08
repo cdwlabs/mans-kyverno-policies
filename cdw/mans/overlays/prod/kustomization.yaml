@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ../../pod-security/overlays/prod
   - ../../best-practices/overlays/prod
+  - ../../metadata-labels/overlays/prod
