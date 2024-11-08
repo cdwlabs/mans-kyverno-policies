@@ -106,6 +106,7 @@ tasks:
       - kubectl create -f https://github.com/kyverno/kyverno/raw/main/config/install-latest-testing.yaml --kubeconfig "$K8S_CONFIG_DIR/config"
       - sleep 60
       - kubectl --namespace kyverno --kubeconfig "$K8S_CONFIG_DIR/config" get pods
+      - kubectl --namespace kyverno --kubeconfig "$K8S_CONFIG_DIR/config" describe pod -l app.kubernetes.io/component=admission-controller
     status:
       - kubectl wait --namespace kyverno --for=condition=ready pod --selector '!job-name' --timeout=5s --kubeconfig "$K8S_CONFIG_DIR/config"
 
