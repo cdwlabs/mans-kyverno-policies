@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goodpod
+  labels:
+    app.kubernetes.io/name: billy
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: wssmtap
+    app.kubernetes.io/managed-by: ansible
+    com.cdw.services/business-unit: integrated-tech
+    com.cdw.services/practice: managed-services
+    com.cdw.services/department: applications
+    com.cdw.services/team: portal
+    com.cdw.services/environment: on-prem
+    com.cdw.services/stage: prod
+    com.cdw.services/customer: dcapps
+    com.cdw.services/pci: in-scope
+    com.cdw.services/data-classification: confidential
+    com.cdw.services/business-criticality: medium
+spec:
+  containers:
+    - name: busybox
+      image: ghcr.io/kyverno/test-busybox:1.35

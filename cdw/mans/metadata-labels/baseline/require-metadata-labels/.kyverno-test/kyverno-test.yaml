@@ -1,0 +1,35 @@
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: require-cdw-metadata-labels
+policies:
+- ../require-metadata-labels.yaml
+resources:
+- resource.yaml
+results:
+- kind: Pod
+  policy: require-metadata-labels
+  resources:
+  - badpod01
+  - badpod02
+  - badpod03
+  - badpod04
+  - badpod05
+  - badpod06
+  - badpod07
+  - badpod08
+  - badpod09
+  - badpod10
+  - badpod11
+  - badpod12
+  - badpod13
+  - badpod14
+  - badpod15
+  result: fail
+  rule: require-metadata-labels
+- kind: Pod
+  policy: require-metadata-labels
+  resources:
+  - goodpod
+  result: pass
+  rule: require-metadata-labels

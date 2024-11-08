@@ -27,12 +27,13 @@ jobs:
     runs-on:
       group: managed-services-apps-team
       labels:
-       - self-hosted
-       - unit-test
-       - Linux
-       - x64
-       - cdw
-       - 24.04
+        - self-hosted
+        - unit-test
+        - Linux
+        - x64
+        - cdw
+        - ubuntu
+        - 22.04
 
     steps:
       - name: Prepare Credentials
