@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ../../pod-security/overlays/stage
   - ../../best-practices/overlays/stage
+  - ../../metadata-labels/overlays/stage
