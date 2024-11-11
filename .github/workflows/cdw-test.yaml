@@ -66,8 +66,8 @@ jobs:
       - name: Use action from cdwlabs-managed-actions
         uses: ./.github/actions/cdwlabs-managed-actions/setup-go-semver
 
-      - name: Create k8s Kind Cluster
-        uses: helm/kind-action@v1.10.0
+#      - name: Create k8s Kind Cluster
+#        uses: helm/kind-action@v1.10.0
 
       - name: Prepare
         id: prep
