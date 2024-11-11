@@ -1,0 +1,6 @@
+# Added by CDW Managed Services to get symlinks to work
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- require-metadata-labels/require-metadata-labels.yaml

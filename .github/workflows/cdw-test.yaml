@@ -32,12 +32,13 @@ jobs:
     runs-on:
       group: managed-services-apps-team
       labels:
-       - self-hosted
-       - unit-test
-       - Linux
-       - x64
-       - cdw
-       - 24.04
+        - self-hosted
+        - unit-test
+        - Linux
+        - x64
+        - cdw
+        - ubuntu
+        - 22.04
 
     steps:
       - name: Prepare Credentials
@@ -71,10 +72,10 @@ jobs:
         id: prep
         run: |
           ./scripts/install-devbox.sh
-          echo "$HOME/.local/share/devbox/global/default/.devbox/nix/profile/default/bin:$HOME/go/bin" >> "$GITHUB_PATH"
+          eval "$(devbox shellenv --install --init-hook)"  # install devbox packages & execute init hooks
+          echo "$DEVBOX_PACKAGES_DIR/bin" >> "$GITHUB_PATH"  # add devbox's path to PATH
 
-      - name: Kustomize
+      - name: Verify CDW policies
         run: |
-          kustomize build cdw/mans/best-practices/overlays/eval
-          kustomize build cdw/mans/best-practices/overlays/stage
-          kustomize build cdw/mans/best-practices/overlays/prod
+          eval "$(devbox shellenv --init-hook)"  # we need this for anything defined in init_hook
+          task policy:verify:kustomize  # note: kyverno chainsaw tests are broken 'till we get kind running 
