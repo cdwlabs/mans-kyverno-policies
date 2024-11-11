@@ -1,0 +1,42 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-cdw-metadata-labels
+  annotations:
+    policies.kyverno.io/title: Require CDW Metadata Labels
+    policies.kyverno.io/category: CDW
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: Pod, Label
+    kyverno.io/kyverno-version: 1.10.0
+    kyverno.io/kubernetes-version: "1.25"
+    policies.kyverno.io/description: >-
+      CDW Managed Services requires labels assigned to Pods in order to track and display
+      workload ownership in granular way. These label requirements can be found in the
+      schema of the managed-apps-metadata repository. But actual Kubernetes workload labels
+      require additional transformation.
+spec:
+  validationFailureAction: Audit
+  background: true
+  rules:
+  - name: require-cdw-metadata-labels
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "The CDW Metadata labels `name`, `component`, `part-of`, `managed-by`, `business-unit`, `practice`, `department`, `customer`, `pci`, `data-classification`, and `business-criticality` are all required. See the managed-apps-metadata repo for more information."
+      pattern:
+        metadata:
+          labels:
+            app.kubernetes.io/name: "?*"
+            app.kubernetes.io/component: "?*"
+            app.kubernetes.io/part-of: "?*"
+            app.kubernetes.io/managed-by: "?*"
+            com.cdw.services/business-unit: "?*"
+            com.cdw.services/practice: "?*"
+            com.cdw.services/department: "?*"
+            com.cdw.services/customer: "?*"
+            com.cdw.services/pci: "?*"
+            com.cdw.services/data-classification: "?*"
+            com.cdw.services/business-criticality: "?*"
