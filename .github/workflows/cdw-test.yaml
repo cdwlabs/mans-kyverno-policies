@@ -78,4 +78,4 @@ jobs:
       - name: Verify CDW policies
         run: |
           eval "$(devbox shellenv --init-hook)"  # we need this for anything defined in init_hook
-          policy:verify:kustomize  # note: kyverno chainsaw tests are broken 'till we get kind running 
+          task policy:verify:kustomize  # note: kyverno chainsaw tests are broken 'till we get kind running 
