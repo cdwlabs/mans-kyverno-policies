@@ -97,6 +97,8 @@ tasks:
     cmds:
       - mkdir -p "$K8S_CONFIG_DIR" # known location for kubeconfig
       - kind create cluster --image "kindest/node:v$K8S_VERSION" --config ./.cdw/kind.yaml --kubeconfig "$K8S_CONFIG_DIR/config"
+      - sleep 60
+      - kubectl --kubeconfig "$K8S_CONFIG_DIR/config" describe node cicd-cluster-worker
     status:
       - test -f "$K8S_CONFIG_DIR/config" # known location for kubeconfig
 

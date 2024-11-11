@@ -75,6 +75,11 @@ jobs:
           eval "$(devbox shellenv --install --init-hook)"  # install devbox packages & execute init hooks
           echo "$DEVBOX_PACKAGES_DIR/bin" >> "$GITHUB_PATH"  # add devbox's path to PATH
 
+      - name: Initialize kind cluster
+        run: |
+          eval "$(devbox shellenv --init-hook)"  # we need this for anything defined in init_hook
+          task cluster:up
+
       - name: Verify CDW policies
         run: |
           eval "$(devbox shellenv --init-hook)"  # we need this for anything defined in init_hook
