@@ -18,7 +18,8 @@
     "kind@0.24.0",
     "actionlint@1.7.1",
     "check-jsonschema@0.28.5",
-    "kubeconform@0.6.7"
+    "kubeconform@0.6.7",
+    "gh@2.54.0"
   ],
   "env": {
     "GIT_UPSTREAM":         "https://github.com/kyverno/policies.git",
