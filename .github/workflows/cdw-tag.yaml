@@ -84,7 +84,7 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@a0de6af83968303c8c955486bf9739a57d23c7f1 # v1.10.0
         with:
-          app-id: ${{ secrets.CDW_MANAGED_GHA_AUTO_APP_ID }}
+          app-id: '42957080'
           private-key: ${{ secrets.CDW_MANAGED_GHA_AUTO_APP_PEM }}
           owner: ${{ github.repository_owner }}
           repositories: "mans-kyverno-policies,managed-actions"
