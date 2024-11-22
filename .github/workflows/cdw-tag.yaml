@@ -286,8 +286,8 @@ jobs:
         with:
           allowUpdates: true
           draft: false
-          makeLatest: true # for now, pre-releases is considered 'latest' - until we get more experience w/policy
-          prerelease: true
+          makeLatest: true # for now, pre-releases are considered 'latest' - until we get more experience w/policy
+          prerelease: false # for now, pre-releases are not marked as 'pre-release' - until we get more experience w/policy
           artifactContentType: "application/json"
           name: ${{ needs.tag.outputs.current_tag }}
           tag: ${{ needs.tag.outputs.current_tag }}
