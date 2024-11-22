@@ -68,9 +68,8 @@ jobs:
         - unit-test
         - Linux
         - X64
-        - cdw
+        - stable
         - ubuntu
-        - 22.04
 
     outputs:
       new_tag: ${{ steps.next-tag-id.outputs.next_tag }}
@@ -175,9 +174,8 @@ jobs:
         - unit-test
         - Linux
         - X64
-        - cdw
         - ubuntu
-        - 22.04
+        - stable
 
     outputs:
       status: ${{ steps.verified-tag-id.outputs.status }}
@@ -270,9 +268,8 @@ jobs:
         - unit-test
         - Linux
         - X64
-        - cdw
+        - stable
         - ubuntu
-        - 22.04
 
     steps:
       - name: Prepare credential information
