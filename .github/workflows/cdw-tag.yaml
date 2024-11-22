@@ -82,7 +82,7 @@ jobs:
     steps:
       - name: Get token from Github App
         id: app-token
-        uses: actions/create-github-app-token@5d869da34e18e7287c1daad50e0b8ea0f506ce69 # v1.11.0
+        uses: actions/create-github-app-token@a0de6af83968303c8c955486bf9739a57d23c7f1 # v1.10.0
         with:
           app-id: ${{ secrets.CDW_MANAGED_GHA_AUTO_APP_ID }}
           private-key: ${{ secrets.CDW_MANAGED_GHA_AUTO_APP_PEM }}
