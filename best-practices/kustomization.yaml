@@ -8,7 +8,7 @@ resources:
 - add-ns-quota/add-ns-quota.yaml
 - add-rolebinding/add-rolebinding.yaml
 - add-safe-to-evict/add-safe-to-evict.yaml
-- check-deprecated-apis/check-deprecated-apis.yaml
+- check-deprecated-apis/check-deprecated-apis-for-v1.27.yaml
 - disallow-cri-sock-mount/disallow-cri-sock-mount.yaml
 - disallow-default-namespace/disallow-default-namespace.yaml
 - disallow-empty-ingress-host/disallow-empty-ingress-host.yaml
