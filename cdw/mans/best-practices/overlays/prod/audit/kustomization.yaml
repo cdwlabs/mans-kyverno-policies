@@ -5,6 +5,19 @@ resources:
   - ../../../baseline
 
 patches:
+  - target:
+      kind: ClusterPolicy
+      name: restrict-nodeport
+    patch: |-
+      - op: add
+        path: /spec/rules/0/exclude
+        value:
+          any:
+          - resources:
+              kinds:
+              - Service
+              names:
+              - trusted-ca-ws
 
   # The following patches will delete individual policies. You would delete
   # individual policies when you don't want to audit them or they're being
